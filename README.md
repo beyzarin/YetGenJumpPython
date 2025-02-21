@@ -1,7 +1,7 @@
 # YetGenJumpPython
 YetGen Python Jump için açılmıştır.
 Bu repo yeni jump python içerikleri için açılmıştır.
-
+### Ben Beyza. YetGen'2025 Core Python'da ben de varım.
 ## Code wizards
 ### Lider: Ayşenur Çelik
 #### YETGEN
