@@ -1,0 +1,68 @@
+# 12. Hafta Proje Taslağı
+# Proje: Hikaye Üretme Uygulaması
+from transformers import pipeline
+
+# Load GPT-2 model for text generation
+story_pipeline = pipeline("text-generation", model="gpt2")
+
+def play_detective_game():
+    print("Welcome to the Detective Mystery Game!")
+    print("You are a detective trying to solve a mysterious case of murder.")
+    print("Your choices will guide the story and help you solve the case.\n")
+
+    # Story Introduction
+    prompt = """
+    You arrive at the old mansion just as night begins to fall. A murder has been committed, and your job is to solve the case.
+    The mansion is eerie, with creaking floorboards and the scent of aged wood filling the air. The room where the murder happened is locked,
+    but there are three key locations you can investigate: the living room, the study, and the garden.
+    You must decide where to go first.
+    """
+
+    # Starting the investigation loop
+    for step in range(10):  # 10 steps in the game for a more detailed journey
+        print(f"\nStep {step+1}:")
+        print(prompt)
+        
+        # Choices for the user
+        if step == 0:
+            choice = input("Where do you want to go first? (living_room/study/garden): ").strip().lower()
+        elif step == 1:
+            choice = input("Do you want to search for clues or interview the witnesses? (search/interview): ").strip().lower()
+        elif step == 2:
+            choice = input("The suspect in the living room looks suspicious. Do you want to confront them? (yes/no): ").strip().lower()
+        else:
+            choice = input("Where would you like to go next? (living_room/study/garden/exit): ").strip().lower()
+
+        # Adjust prompt based on the user's choices
+        if choice == "living_room":
+            prompt += " You enter the living room where the murder took place. The room is filled with tension, and the main suspect is here."
+        elif choice == "study":
+            prompt += " You head to the study where the victim worked. Papers are scattered across the desk, and the windows are open."
+        elif choice == "garden":
+            prompt += " You walk into the garden. The night air is cold, and a distant howl can be heard from the woods."
+        elif choice == "search":
+            prompt += " You begin searching the room for any clues that might have been overlooked. A broken vase and a bloodstained handkerchief catch your attention."
+        elif choice == "interview":
+            prompt += " You decide to interview the witnesses. Everyone seems nervous, but the gardener looks especially anxious."
+        elif choice == "yes":
+            prompt += " You confront the suspect. Their eyes widen in surprise, and they begin to sweat profusely."
+        elif choice == "no":
+            prompt += " You decide not to confront the suspect yet. But something about their demeanor still feels off."
+        elif choice == "exit":
+            prompt += " You decide to leave the mansion for now. But the mystery still lingers in your mind."
+        else:
+            print("Invalid choice. Please choose a valid option.")
+            continue
+
+        # Generate story continuation using the model
+        generated = story_pipeline(prompt, max_length=len(prompt.split()) + 100, truncation=True)[0]["generated_text"]
+        
+        # Update prompt with the new generated story
+        prompt = generated
+        print("\nThe story continues...")
+        print(generated)
+
+    print("\n--- The End of Your Detective Adventure ---")
+    print("Thanks for playing! Would you like to try again with different choices?")
+    
+play_detective_game()
